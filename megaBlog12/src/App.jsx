@@ -1,15 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
+import { useDispatch } from "react-redux";
+import authservice from './appWrite/auth';
 import './App.css'
+import { logIn, logOut } from './store/authSlice';
+import Header from './Components/Header/Header';
+import Footer from './Components/Footer/Footer';
 
 function App() {
-  const [count, setCount] = useState(0)
+  //console.log(import.meta.env.VITE_APPWRITE_URL);
+  // vite specific env variables access
+const {loading, setLoading} = useState(true)
+const dispatch = useDispatch()
+useEffect(()=>{
+  authservice.checkUserState()
+  .then(
+    (userData)=>{
+      if (userData)
+        {
+          dispatch(logIn({userData}))// here i am calling the logIn action creator returned by the createSlice function it will return a action with the type which will trigger the logIn case reducer 
+          // console.log(logIn("userData"));
+        }else{
+          dispatch(logOut())
+        }
+    }
+  )
+  .finally(
+    ()=>{setLoading(false)}
+  ) 
 
-  return (
-    <>
-      <h1> blog with appwrite </h1>
-    </>
+})
+  return !loading ? (
+    <div className='min-h-full flex flex-wrap content-between bg-slate-400'>
+      <div className='w-full text-white block'>
+        <Header/>
+        <main>
+          {/* <outlet/> */}
+        </main>
+        <Footer/>
+      </div>
+    </div>
+  ) : (
+    <div>
+      Loading
+    </div>
   )
 }
 

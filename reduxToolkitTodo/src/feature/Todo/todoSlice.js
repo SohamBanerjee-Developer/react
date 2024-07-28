@@ -3,9 +3,9 @@ const initialState = {
     todos : [{id : 1, text : " hello world"}]
 }
 export const todoSlice = createSlice({
-    name: 'todo',// the key is noy user defined
-    initialState,// the key is noy user defined
-    reducers: {// the key is noy user defined
+    name: 'todo',// the key is not user defined
+    initialState,// the key is not user defined
+    reducers: {// the key is not user defined
         addTodo: (state, action)=>{// the parameters are not userdefined
             const todo = {
                 id: nanoid(),
