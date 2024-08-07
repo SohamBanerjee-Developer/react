@@ -14,7 +14,7 @@ constructor(){
 async createAccount({email, password, name}){
     try {
         const userAccount = this.account.create(ID.unique(), email, password, name)
-        if (userAccount) {
+        if (userAccount) {//condition satisfies for anything other than o and empty string
             // call another method
             return this.login({email, password})
         } else {
@@ -37,7 +37,7 @@ async checkUserState(){
     try {
         return await this.account.get()        
     } catch (error) {
-        console.log(error);
+        console.log(error);  
     }
     return null;
 }
